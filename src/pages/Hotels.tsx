@@ -2,22 +2,23 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { motion } from 'framer-motion';
-import { format } from 'date-fns';
-import { Calendar as CalendarIcon, Star, Users, ArrowLeft, ArrowRight, Wifi, Tv, Coffee, Bath } from 'lucide-react';
+import { format, addDays } from 'date-fns';
+import { Calendar as CalendarIcon, Star, Users, ArrowLeft, ArrowRight, Wifi, Tv, Coffee, Bath, Snowflake, Car, Child, Utensils, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-// Placeholder hotel data
+// Enhanced hotel data
 const hotels = [
   {
     id: 1,
     name: "Ocean Paradise Resort",
-    description: "Luxury resort with stunning ocean views and private beach access.",
+    description: "Luxury resort with stunning ocean views and private beach access. Enjoy world-class dining, spa services, and water activities.",
     price: 299,
     rating: 4.8,
-    amenities: ["wifi", "tv", "coffee", "bath"],
+    amenities: ["wifi", "tv", "coffee", "bath", "ac", "parking", "restaurant", "family"],
     location: "North Shore",
     images: [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
@@ -28,10 +29,10 @@ const hotels = [
   {
     id: 2,
     name: "Sunset Bay Villas",
-    description: "Exclusive villas perfect for watching the spectacular island sunsets.",
+    description: "Exclusive villas perfect for watching the spectacular island sunsets. Each villa features a private pool and butler service.",
     price: 399,
     rating: 4.9,
-    amenities: ["wifi", "tv", "coffee", "bath"],
+    amenities: ["wifi", "tv", "coffee", "bath", "ac", "parking", "restaurant"],
     location: "West Bay",
     images: [
       "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
@@ -42,23 +43,60 @@ const hotels = [
   {
     id: 3,
     name: "Tropical Garden Inn",
-    description: "Boutique hotel surrounded by lush tropical gardens and exotic wildlife.",
+    description: "Boutique hotel surrounded by lush tropical gardens and exotic wildlife. Perfect for nature lovers and eco-tourism.",
     price: 199,
     rating: 4.6,
-    amenities: ["wifi", "coffee", "bath"],
+    amenities: ["wifi", "coffee", "bath", "family"],
     location: "Central Hills",
     images: [
       "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
       "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
       "https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
     ]
+  },
+  {
+    id: 4,
+    name: "Island Cove Resort",
+    description: "Family-friendly resort with activities for all ages. Features a water park, kids club, and various dining options.",
+    price: 249,
+    rating: 4.7,
+    amenities: ["wifi", "tv", "coffee", "bath", "ac", "parking", "restaurant", "family"],
+    location: "East Beach",
+    images: [
+      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+    ]
+  },
+  {
+    id: 5,
+    name: "Seaside Bungalows",
+    description: "Cozy bungalows right on the beach. Simple, comfortable accommodations with amazing ocean views and atmosphere.",
+    price: 179,
+    rating: 4.5,
+    amenities: ["wifi", "coffee", "bath"],
+    location: "South Point",
+    images: [
+      "https://images.unsplash.com/photo-1602002418211-ad67c8340dc4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+    ]
   }
 ];
 
 const Hotels = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [checkInDate, setCheckInDate] = useState<Date | undefined>(new Date());
+  const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(addDays(new Date(), 3));
   const [guests, setGuests] = useState(2);
+  const [children, setChildren] = useState(0);
   const [activeSlides, setActiveSlides] = useState<{ [key: number]: number }>({});
+  const [advancedOptions, setAdvancedOptions] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    specialRequests: ''
+  });
   
   const handlePrevSlide = (hotelId: number) => {
     setActiveSlides(prev => ({
@@ -74,12 +112,39 @@ const Hotels = () => {
     }));
   };
   
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  
+  const handleSearch = () => {
+    // In a real app, this would filter hotels based on the search criteria
+    console.log("Searching for hotels with the following criteria:");
+    console.log({
+      checkInDate,
+      checkOutDate,
+      guests,
+      children,
+      ...formData
+    });
+    
+    // For now, we'll just show a success message
+    alert("Search executed! Check the console for details.");
+  };
+  
   // Icon mapping
   const amenityIcons = {
     wifi: <Wifi className="w-4 h-4" />,
     tv: <Tv className="w-4 h-4" />,
     coffee: <Coffee className="w-4 h-4" />,
-    bath: <Bath className="w-4 h-4" />
+    bath: <Bath className="w-4 h-4" />,
+    ac: <Snowflake className="w-4 h-4" />,
+    parking: <Car className="w-4 h-4" />,
+    family: <Child className="w-4 h-4" />,
+    restaurant: <Utensils className="w-4 h-4" />
   };
   
   return (
@@ -104,64 +169,181 @@ const Hotels = () => {
             </p>
           </motion.div>
           
-          {/* Search and Filter Section */}
+          {/* Enhanced Search and Filter Section */}
           <motion.div 
-            className="glass-card p-6 mb-12 flex flex-wrap gap-4 justify-center"
+            className="glass-card p-6 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Date Picker */}
-            <div>
-              <p className="text-sm font-medium mb-2">Check-in Date</p>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="glass w-[240px] justify-start text-left font-normal"
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+              {/* Check-in Date */}
+              <div>
+                <p className="text-sm font-medium mb-2">Check-in Date</p>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="glass w-full justify-start text-left font-normal"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {checkInDate ? format(checkInDate, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={checkInDate}
+                      onSelect={setCheckInDate}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              
+              {/* Check-out Date */}
+              <div>
+                <p className="text-sm font-medium mb-2">Check-out Date</p>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="glass w-full justify-start text-left font-normal"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {checkOutDate ? format(checkOutDate, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={checkOutDate}
+                      onSelect={setCheckOutDate}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                      fromDate={checkInDate ? addDays(checkInDate, 1) : undefined}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              
+              {/* Guests */}
+              <div>
+                <p className="text-sm font-medium mb-2">Adults</p>
+                <div className="glass flex items-center p-1 rounded-md border border-white/30">
+                  <button 
+                    onClick={() => setGuests(prev => Math.max(1, prev - 1))}
+                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            
-            {/* Guests */}
-            <div>
-              <p className="text-sm font-medium mb-2">Guests</p>
-              <div className="glass flex items-center p-1 rounded-md border border-white/30">
-                <button 
-                  onClick={() => setGuests(prev => Math.max(1, prev - 1))}
-                  className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
-                >
-                  -
-                </button>
-                <div className="flex-1 text-center">
-                  <Users className="inline-block mr-1 w-4 h-4" />
-                  <span>{guests}</span>
+                    -
+                  </button>
+                  <div className="flex-1 text-center">
+                    <Users className="inline-block mr-1 w-4 h-4" />
+                    <span>{guests}</span>
+                  </div>
+                  <button 
+                    onClick={() => setGuests(prev => prev + 1)}
+                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                  >
+                    +
+                  </button>
                 </div>
-                <button 
-                  onClick={() => setGuests(prev => prev + 1)}
-                  className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
-                >
-                  +
-                </button>
+              </div>
+              
+              {/* Children */}
+              <div>
+                <p className="text-sm font-medium mb-2">Children</p>
+                <div className="glass flex items-center p-1 rounded-md border border-white/30">
+                  <button 
+                    onClick={() => setChildren(prev => Math.max(0, prev - 1))}
+                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                  >
+                    -
+                  </button>
+                  <div className="flex-1 text-center">
+                    <Child className="inline-block mr-1 w-4 h-4" />
+                    <span>{children}</span>
+                  </div>
+                  <button 
+                    onClick={() => setChildren(prev => prev + 1)}
+                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
             
+            {/* Advanced options toggle */}
+            <div className="mb-4">
+              <button 
+                onClick={() => setAdvancedOptions(!advancedOptions)}
+                className="flex items-center text-sm text-island-teal font-medium"
+              >
+                {advancedOptions ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                {advancedOptions ? "Hide" : "Show"} advanced options
+              </button>
+            </div>
+            
+            {/* Advanced options form */}
+            {advancedOptions && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+              >
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Full Name</label>
+                  <Input 
+                    type="text" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleInputChange} 
+                    className="glass" 
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Email</label>
+                  <Input 
+                    type="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleInputChange} 
+                    className="glass" 
+                    placeholder="your@email.com"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Phone Number</label>
+                  <Input 
+                    type="tel" 
+                    name="phone" 
+                    value={formData.phone} 
+                    onChange={handleInputChange} 
+                    className="glass" 
+                    placeholder="+1 (555) 123-4567"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Special Requests</label>
+                  <Input 
+                    type="text" 
+                    name="specialRequests" 
+                    value={formData.specialRequests} 
+                    onChange={handleInputChange} 
+                    className="glass" 
+                    placeholder="Ocean view, high floor, etc."
+                  />
+                </div>
+              </motion.div>
+            )}
+            
             {/* Search Button */}
-            <div className="flex items-end">
-              <Button className="button-glow h-10">
+            <div className="flex justify-center">
+              <Button className="button-glow h-10 px-8" onClick={handleSearch}>
                 Search Availability
               </Button>
             </div>
@@ -243,20 +425,24 @@ const Hotels = () => {
                     
                     <p className="text-gray-600 mb-4">{hotel.description}</p>
                     
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="bg-island-teal/10 text-island-teal rounded-full px-3 py-1 text-xs">
+                    <div className="mb-4">
+                      <span className="bg-island-teal/10 text-island-teal rounded-full px-3 py-1 text-xs inline-flex items-center">
+                        <MapPin className="w-3 h-3 mr-1" />
                         {hotel.location}
                       </span>
-                      
-                      {/* Amenities */}
+                    </div>
+                    
+                    {/* Amenities */}
+                    <div className="flex flex-wrap gap-3 mb-4">
                       {hotel.amenities.map((amenity) => (
-                        <span 
+                        <div 
                           key={amenity}
-                          className="bg-white/40 rounded-full w-8 h-8 flex items-center justify-center"
+                          className="flex items-center bg-white/40 rounded-full px-2 py-1"
                           title={amenity.charAt(0).toUpperCase() + amenity.slice(1)}
                         >
                           {amenityIcons[amenity as keyof typeof amenityIcons]}
-                        </span>
+                          <span className="ml-1 text-xs capitalize">{amenity}</span>
+                        </div>
                       ))}
                     </div>
                     
@@ -266,9 +452,11 @@ const Hotels = () => {
                         <span className="text-gray-600"> / night</span>
                       </div>
                       
-                      <Button className="button-glow">
-                        Book Now
-                      </Button>
+                      <Link to="/hotels">
+                        <Button className="button-glow">
+                          Book Now
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>
