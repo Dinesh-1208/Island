@@ -2,7 +2,7 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import { motion } from 'framer-motion';
-import { Star, Trophy, Leaf, Fire } from 'lucide-react';
+import { Star, Trophy, Leaf, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Placeholder restaurant data
@@ -82,8 +82,8 @@ const tagIcons = {
   "Best Seller": <Trophy className="w-3 h-3" />,
   "Vegan Options": <Leaf className="w-3 h-3" />,
   "Vegan": <Leaf className="w-3 h-3" />,
-  "Spicy": <Fire className="w-3 h-3" />,
-  "Hot": <Fire className="w-3 h-3" />,
+  "Spicy": <Flame className="w-3 h-3" />,
+  "Hot": <Flame className="w-3 h-3" />,
   "Popular": <Star className="w-3 h-3" />
 };
 
