@@ -6,6 +6,7 @@ import { Instagram, Facebook, Twitter, MapPin, Mail, Phone } from 'lucide-react'
 const Footer = () => {
   return (
     <footer className="bg-island-dark text-white py-12 px-6 relative overflow-hidden">
+      <button onClick={() => window.open('https://retro-island-adventure.vercel.app/', '_blank')}>Click me To go to the Retro Style</button>
       <div className="absolute inset-0 bg-[url('/wave-pattern.svg')] bg-repeat bg-[length:400px_400px] opacity-5 -z-10" />
       
       <div className="max-w-7xl mx-auto">
