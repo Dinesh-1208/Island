@@ -1,16 +1,15 @@
-
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { motion } from 'framer-motion';
 import { format, addDays } from 'date-fns';
-import { Calendar as CalendarIcon, Star, Users, ArrowLeft, ArrowRight, Wifi, Tv, Coffee, Bath, Snowflake, Car, Child, Utensils, Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calendar as CalendarIcon, Star, Users, ArrowLeft, ArrowRight, Wifi, Tv, Coffee, Bath, Snowflake, Car, Baby, Utensils, Check, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-// Enhanced hotel data
 const hotels = [
   {
     id: 1,
@@ -121,7 +120,6 @@ const Hotels = () => {
   };
   
   const handleSearch = () => {
-    // In a real app, this would filter hotels based on the search criteria
     console.log("Searching for hotels with the following criteria:");
     console.log({
       checkInDate,
@@ -131,11 +129,9 @@ const Hotels = () => {
       ...formData
     });
     
-    // For now, we'll just show a success message
     alert("Search executed! Check the console for details.");
   };
   
-  // Icon mapping
   const amenityIcons = {
     wifi: <Wifi className="w-4 h-4" />,
     tv: <Tv className="w-4 h-4" />,
@@ -143,14 +139,13 @@ const Hotels = () => {
     bath: <Bath className="w-4 h-4" />,
     ac: <Snowflake className="w-4 h-4" />,
     parking: <Car className="w-4 h-4" />,
-    family: <Child className="w-4 h-4" />,
+    family: <Baby className="w-4 h-4" />,
     restaurant: <Utensils className="w-4 h-4" />
   };
   
   return (
     <Layout>
       <div className="min-h-screen relative pt-24 pb-16 px-6">
-        {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-island-teal/20 to-island-light -z-10" />
         
         <div className="max-w-7xl mx-auto">
@@ -169,7 +164,6 @@ const Hotels = () => {
             </p>
           </motion.div>
           
-          {/* Enhanced Search and Filter Section */}
           <motion.div 
             className="glass-card p-6 mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -177,7 +171,6 @@ const Hotels = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-              {/* Check-in Date */}
               <div>
                 <p className="text-sm font-medium mb-2">Check-in Date</p>
                 <Popover>
@@ -202,7 +195,6 @@ const Hotels = () => {
                 </Popover>
               </div>
               
-              {/* Check-out Date */}
               <div>
                 <p className="text-sm font-medium mb-2">Check-out Date</p>
                 <Popover>
@@ -228,7 +220,6 @@ const Hotels = () => {
                 </Popover>
               </div>
               
-              {/* Guests */}
               <div>
                 <p className="text-sm font-medium mb-2">Adults</p>
                 <div className="glass flex items-center p-1 rounded-md border border-white/30">
@@ -251,7 +242,6 @@ const Hotels = () => {
                 </div>
               </div>
               
-              {/* Children */}
               <div>
                 <p className="text-sm font-medium mb-2">Children</p>
                 <div className="glass flex items-center p-1 rounded-md border border-white/30">
@@ -275,7 +265,6 @@ const Hotels = () => {
               </div>
             </div>
             
-            {/* Advanced options toggle */}
             <div className="mb-4">
               <button 
                 onClick={() => setAdvancedOptions(!advancedOptions)}
@@ -286,7 +275,6 @@ const Hotels = () => {
               </button>
             </div>
             
-            {/* Advanced options form */}
             {advancedOptions && (
               <motion.div 
                 initial={{ opacity: 0, height: 0 }}
@@ -341,7 +329,6 @@ const Hotels = () => {
               </motion.div>
             )}
             
-            {/* Search Button */}
             <div className="flex justify-center">
               <Button className="button-glow h-10 px-8" onClick={handleSearch}>
                 Search Availability
@@ -349,7 +336,6 @@ const Hotels = () => {
             </div>
           </motion.div>
           
-          {/* Hotel Listings */}
           <div className="space-y-12">
             {hotels.map((hotel, index) => (
               <motion.div 
@@ -360,7 +346,6 @@ const Hotels = () => {
                 transition={{ duration: 0.6, delay: 0.3 + (index * 0.1) }}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                  {/* Image Carousel */}
                   <div className="relative h-64 lg:h-auto overflow-hidden">
                     <div className="relative w-full h-full">
                       {hotel.images.map((image, imgIndex) => (
@@ -383,7 +368,6 @@ const Hotels = () => {
                       ))}
                     </div>
                     
-                    {/* Carousel Controls */}
                     <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
                       {hotel.images.map((_, imgIndex) => (
                         <button 
@@ -413,7 +397,6 @@ const Hotels = () => {
                     </button>
                   </div>
                   
-                  {/* Hotel Details */}
                   <div className="p-6 lg:col-span-2">
                     <div className="flex justify-between items-start mb-3">
                       <h2 className="text-2xl font-bold">{hotel.name}</h2>
@@ -432,7 +415,6 @@ const Hotels = () => {
                       </span>
                     </div>
                     
-                    {/* Amenities */}
                     <div className="flex flex-wrap gap-3 mb-4">
                       {hotel.amenities.map((amenity) => (
                         <div 
@@ -452,7 +434,7 @@ const Hotels = () => {
                         <span className="text-gray-600"> / night</span>
                       </div>
                       
-                      <Link to="/hotels">
+                      <Link to={`/hotels/${hotel.id}`}>
                         <Button className="button-glow">
                           Book Now
                         </Button>
