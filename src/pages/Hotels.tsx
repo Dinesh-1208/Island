@@ -252,7 +252,7 @@ const Hotels = () => {
                     -
                   </button>
                   <div className="flex-1 text-center">
-                    <Child className="inline-block mr-1 w-4 h-4" />
+                    <Baby className="inline-block mr-1 w-4 h-4" />
                     <span>{children}</span>
                   </div>
                   <button 
