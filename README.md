@@ -1,6 +1,6 @@
 link to the Retro page https://retro-island-adventure.vercel.app/
-we have done and kept the retro page 1990's in the footer
-
+we have done and kept the retro page 1990's in the footer and rep for retro island is 
+https://github.com/DPavanKrishna/retro-island-adventure
 ![image](https://github.com/user-attachments/assets/2460ac77-bc9a-41d6-91dc-942e977d9b99)
 
 
