@@ -1,4 +1,7 @@
-In the Footer we have the link to the Retro page https://retro-island-adventure.vercel.app/
+link to the Retro page https://retro-island-adventure.vercel.app/
+we have done and kept the retro page 1990's in the footer
+
+![image](https://github.com/user-attachments/assets/2460ac77-bc9a-41d6-91dc-942e977d9b99)
 
 
 
@@ -56,6 +59,8 @@ o	Rules and guidelines to follow
 Weather Report
 •	Displays the current weather conditions for selected locations.
 •	Provides temperature, humidity, and other relevant weather data.
+
+
 
 Contributors
     CHAPPIDI KULADEEP REDDY
